@@ -17,6 +17,16 @@ public class Train : ITrain
 
     public Train(double weight, double maximumPermissibleForce, double accuracy)
     {
+        if (weight <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than zero.");
+        }
+
+        if (accuracy <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(accuracy), "Accuracy must be greater than zero.");
+        }
+
         if (!IsMaximumPermissibleForceValid(maximumPermissibleForce))
         {
             throw new ArgumentOutOfRangeException(nameof(maximumPermissibleForce), "Maximum permissible force must be greater than zero.");
@@ -33,7 +43,7 @@ public class Train : ITrain
     {
         if (!IsForceValid(force))
         {
-            return new Result.Failure($"Force {force} exceeds the maximum permissible force.");
+            return new Result.ForceExceeded(force, MaximumPermissibleForce);
         }
 
         CalculateAcceleration(force);
@@ -46,7 +56,7 @@ public class Train : ITrain
     {
         if (Speed < 0)
         {
-            return new Result.Failure("Speed must be greater than or equal to zero.");
+            return new Result.InvalidAcceleration(Speed);
         }
 
         return new Result.Success();
@@ -60,6 +70,9 @@ public class Train : ITrain
 
     private void CalculateAcceleration(double force)
     {
+        if (Weight == 0)
+            throw new DivideByZeroException("Weight cannot be zero.");
+
         Acceleration = force / Weight;
     }
 

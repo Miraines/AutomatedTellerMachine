@@ -25,16 +25,16 @@ public class StationSegment : IRouteSegment
     public Result CanStop(ITrain train)
     {
         if (train.Speed <= MaxAllowedSpeed) return new Result.Success();
-        return new Result.Failure("The speed should not exceed MaxAllowedSpeed");
+        return new Result.SpeedLimitExceeded(train.Speed);
     }
 
     public Result StopTrain(ITrain train)
     {
         Result canStopResult = CanStop(train);
 
-        if (canStopResult is Result.Failure)
+        if (canStopResult is Result.Failure failure)
         {
-            return new Result.Failure("Train is moving too fast to stop at the station.");
+            return failure;
         }
 
         train.Acceleration = 0;

@@ -58,12 +58,10 @@ public class RouteTests
 
         Result result = process.Process();
 
-        Assert.IsType<Result.Failure>(result);
+        Assert.IsType<Result.SpeedLimitExceeded>(result);
 
-        var failureResult = result as Result.Failure;
-
-        Assert.NotNull(failureResult);
-        Assert.Contains("The train exceeded the speed limit at the end of the route", failureResult.ErrorMessage, StringComparison.OrdinalIgnoreCase);
+        var speedLimitExceededResult = result as Result.SpeedLimitExceeded;
+        Assert.NotNull(speedLimitExceededResult);
     }
 
     [Fact]
@@ -116,11 +114,10 @@ public class RouteTests
 
         Result result = process.Process();
 
-        Assert.IsType<Result.Failure>(result);
+        Assert.IsType<Result.SpeedLimitExceeded>(result);
 
-        var failureResult = result as Result.Failure;
-        Assert.NotNull(failureResult);
-        Assert.Contains("Failed to pass segment 2: The speed should not exceed MaxAllowedSpeed", failureResult.ErrorMessage, StringComparison.OrdinalIgnoreCase);
+        var speedLimitExceededResult = result as Result.SpeedLimitExceeded;
+        Assert.NotNull(speedLimitExceededResult);
     }
 
     [Fact]
@@ -144,11 +141,10 @@ public class RouteTests
 
         Result result = process.Process();
 
-        Assert.IsType<Result.Failure>(result);
+        Assert.IsType<Result.SpeedLimitExceeded>(result);
 
-        var failureResult = result as Result.Failure;
-        Assert.NotNull(failureResult);
-        Assert.Contains("The train exceeded the speed limit at the end of the route", failureResult.ErrorMessage, StringComparison.OrdinalIgnoreCase);
+        var speedLimitExceededResult = result as Result.SpeedLimitExceeded;
+        Assert.NotNull(speedLimitExceededResult);
     }
 
     [Fact]
@@ -201,10 +197,9 @@ public class RouteTests
 
         Result result = process.Process();
 
-        Assert.IsType<Result.Failure>(result);
-        var failureResult = result as Result.Failure;
-        Assert.NotNull(failureResult);
-        Assert.Contains("The train is unable to move further due to insufficient speed or acceleration.", failureResult.ErrorMessage, StringComparison.OrdinalIgnoreCase);
+        Assert.IsType<Result.InvalidAcceleration>(result);
+        var invalidAccelerationResult = result as Result.InvalidAcceleration;
+        Assert.NotNull(invalidAccelerationResult);
     }
 
     [Fact]
@@ -229,10 +224,9 @@ public class RouteTests
 
         Result result = process.Process();
 
-        Assert.IsType<Result.Failure>(result);
+        Assert.IsType<Result.InvalidAcceleration>(result);
 
-        var failureResult = result as Result.Failure;
-        Assert.NotNull(failureResult);
-        Assert.Contains("The train is unable to move further due to insufficient speed", failureResult.ErrorMessage, StringComparison.OrdinalIgnoreCase);
+        var invalidAccelerationResult = result as Result.InvalidAcceleration;
+        Assert.NotNull(invalidAccelerationResult);
     }
 }

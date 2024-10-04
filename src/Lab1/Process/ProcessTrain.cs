@@ -37,7 +37,7 @@
 
                 if (segmentTimeResult is Result.Failure failure)
                 {
-                    return new Result.Failure($"Failed to pass segment {i + 1}: {failure.ErrorMessage}");
+                    return failure;
                 }
                 else if (segmentTimeResult is Result.SuccessWithTime successWithTime)
                 {
@@ -47,7 +47,7 @@
 
             if (!_route.FinalSegment.CheckSpeed(_train))
             {
-                return new Result.Failure("The train exceeded the speed limit at the end of the route");
+                return new Result.SpeedLimitExceeded(totalTime);
             }
 
             return new Result.SuccessWithTime(totalTime);

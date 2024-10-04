@@ -8,5 +8,5 @@ public interface IRouteSegment
 
     double Force { get; }
 
-    public Result CalculateSegmentTime(ITrain train);
+    Result CalculateSegmentTime(ITrain train);
 }

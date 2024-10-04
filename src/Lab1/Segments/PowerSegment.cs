@@ -28,9 +28,9 @@ public class PowerSegment : IRouteSegment, IValidatableDistanceSegment
         double distanceRemaining = Distance;
         Result applyForceResult = train.TryApplyForce(Force);
 
-        if (applyForceResult is Result.Failure failure)
+        if (applyForceResult is Result.ForceExceeded forceExceeded)
         {
-            return new Result.Failure("Failed to apply force: " + failure.ErrorMessage);
+            return forceExceeded;
         }
 
         while (distanceRemaining > 0)
@@ -39,7 +39,7 @@ public class PowerSegment : IRouteSegment, IValidatableDistanceSegment
 
             if (distanceTraveled <= 0)
             {
-                return new Result.Failure("The train is unable to move further due to insufficient speed.");
+                return new Result.InvalidAcceleration(train.Acceleration);
             }
 
             distanceRemaining -= distanceTraveled;

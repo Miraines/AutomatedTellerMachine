@@ -20,18 +20,8 @@ public class Route
             throw new ArgumentNullException(nameof(finalSegment), "Final segment must be provided.");
         }
 
-        _segments = new List<IRouteSegment>(segments);
+        _segments = segments.ToList();
         FinalSegment = finalSegment;
-    }
-
-    public void Add(IRouteSegment segment)
-    {
-        _segments.Add(segment);
-    }
-
-    public void Delete(IRouteSegment segment)
-    {
-        _segments.Remove(segment);
     }
 
     public int Count()

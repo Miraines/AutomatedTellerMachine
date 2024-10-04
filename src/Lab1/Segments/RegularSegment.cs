@@ -37,7 +37,7 @@ public class RegularSegment : IRouteSegment, IValidatableDistanceSegment
 
             if (distanceTraveled <= 0)
             {
-                return new Result.Failure("The train is unable to move further due to insufficient speed or acceleration.");
+                return new Result.InvalidAcceleration(currentAcceleration);
             }
 
             distanceRemaining -= distanceTraveled;

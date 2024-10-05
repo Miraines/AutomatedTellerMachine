@@ -44,7 +44,7 @@ public class PowerSegment : IRouteSegment, IValidatableDistanceSegment
 
             distanceRemaining -= distanceTraveled;
 
-            train.Speed += train.Acceleration * train.Accuracy;
+            train.TryApplySpeed(train.Acceleration * train.Accuracy);
 
             time += train.Accuracy;
         }

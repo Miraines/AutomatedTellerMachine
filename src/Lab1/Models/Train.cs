@@ -11,9 +11,9 @@ public class Train : ITrain
 
     public double Accuracy { get; }
 
-    public double Speed { get; set; }
+    public double Speed { get; private set; }
 
-    public double Acceleration { get; set; }
+    public double Acceleration { get; private set; }
 
     public Train(double weight, double maximumPermissibleForce, double accuracy)
     {
@@ -52,6 +52,26 @@ public class Train : ITrain
         return new Result.Success();
     }
 
+    public void TryApplyAcceleration(double acceleration)
+    {
+        if (acceleration < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(acceleration), "Acceleration must be greater than zero.");
+        }
+
+        Acceleration = acceleration;
+    }
+
+    public void TryApplySpeed(double speed)
+    {
+        if (speed < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(speed), "Speed must be greater than zero.");
+        }
+
+        Speed = speed;
+    }
+
     private Result EnsureValidSpeed()
     {
         if (Speed < 0)
@@ -70,9 +90,6 @@ public class Train : ITrain
 
     private void CalculateAcceleration(double force)
     {
-        if (Weight == 0)
-            throw new DivideByZeroException("Weight cannot be zero.");
-
         Acceleration = force / Weight;
     }
 

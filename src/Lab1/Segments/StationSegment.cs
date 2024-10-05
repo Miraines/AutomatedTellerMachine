@@ -37,7 +37,7 @@ public class StationSegment : IRouteSegment
             return failure;
         }
 
-        train.Acceleration = 0;
+        train.TryApplyAcceleration(0);
 
         return new Result.Success();
     }

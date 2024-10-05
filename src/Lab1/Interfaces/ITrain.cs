@@ -4,9 +4,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Interfaces;
 
 public interface ITrain
 {
-    double Speed { get; set; }
+    double Speed { get; }
 
-    double Acceleration { get; set; }
+    double Acceleration { get; }
 
     double Weight { get; }
 
@@ -15,4 +15,8 @@ public interface ITrain
     double MaximumPermissibleForce { get; }
 
     Result TryApplyForce(double force);
+
+    void TryApplyAcceleration(double acceleration);
+
+    void TryApplySpeed(double speed);
 }

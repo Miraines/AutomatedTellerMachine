@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab2.User;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Labworks;
 
-public class Labwork : IMaterials
+public class Labwork : IMaterials, IPrototype<Labwork>
 {
     public string Title { get; private set; }
 
@@ -15,9 +15,9 @@ public class Labwork : IMaterials
 
     public int Points { get; private set; }
 
-    public Guid? OriginalId { get; private set; }
+    public Guid? OriginalId { get; }
 
-    public Labwork(string title, IUser author, string description, int points, Guid originalId = default)
+    public Labwork(string title, IUser author, string description, int points, Guid? originalId = default)
     {
         Title = title;
         Description = description;
@@ -27,7 +27,7 @@ public class Labwork : IMaterials
         OriginalId = originalId;
     }
 
-    public IMaterials Clone()
+    public Labwork Clone()
     {
         return new Labwork(Title, Author, Description, Points, Id);
     }

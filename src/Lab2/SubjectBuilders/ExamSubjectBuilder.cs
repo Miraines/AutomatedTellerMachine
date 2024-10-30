@@ -6,7 +6,7 @@ using Itmo.ObjectOrientedProgramming.Lab2.User;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.SubjectBuilders;
 
-public class SubjectBuilder : ISubjectBuilder
+public class ExamSubjectBuilder : IExamSubjectBuilder
 {
     private string? _name;
 
@@ -16,45 +16,45 @@ public class SubjectBuilder : ISubjectBuilder
 
     private IUser? _author;
 
-    private Guid? _baseSubjectId;
+    private int _maxPoints;
 
-    public ISubjectBuilder SetName(string name)
+    public IExamSubjectBuilder SetName(string name)
     {
         _name = name;
         return this;
     }
 
-    public ISubjectBuilder SetLabworks(IReadOnlyCollection<Labwork> labworks)
+    public IExamSubjectBuilder SetLabworks(IReadOnlyCollection<Labwork> labworks)
     {
         _labworks = labworks;
         return this;
     }
 
-    public SubjectBuilder SetLectures(IReadOnlyCollection<Lection> lectures)
+    public IExamSubjectBuilder SetLectures(IReadOnlyCollection<Lection> lectures)
     {
         _lectures = lectures;
         return this;
     }
 
-    public ISubjectBuilder SetAuthor(IUser author)
+    public IExamSubjectBuilder SetAuthor(IUser author)
     {
         _author = author;
         return this;
     }
 
-    public ISubjectBuilder SetBaseSubjectId(Guid? baseSubjectId)
+    public IExamSubjectBuilder SetMaxPoints(int maxPoints)
     {
-        _baseSubjectId = baseSubjectId;
+        _maxPoints = maxPoints;
         return this;
     }
 
-    public Subject Build()
+    public ExamSubject Build()
     {
-        if (_name == null || _labworks == null || _lectures == null || _author == null)
+        if (_name == null || _labworks == null || _lectures == null || _author == null || _maxPoints <= 0)
         {
             throw new InvalidOperationException("Name and Labwork and Lecture are required.");
         }
 
-        return new Subject(_name, _labworks, _lectures, _author, _baseSubjectId);
+        return new ExamSubject(_name, _author, _labworks, _lectures, _maxPoints);
     }
 }

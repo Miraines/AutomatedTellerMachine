@@ -4,15 +4,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.MaterialsCreate;
 
 public interface IMaterials
 {
-    public Guid Id { get; }
+    Guid Id { get; }
 
-    public string Title { get; }
+    string Title { get; }
 
-    public string Description { get; }
+    string Description { get; }
 
-    public IUser Author { get; }
+    IUser Author { get; }
 
     Guid? OriginalId { get; }
-
-    IMaterials Clone();
 }

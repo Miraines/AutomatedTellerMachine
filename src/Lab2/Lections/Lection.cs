@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab2.User;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Lections;
 
-public class Lection : IMaterials
+public class Lection : IMaterials, IPrototype<Lection>
 {
     public string Title { get; private set; }
 
@@ -36,16 +36,16 @@ public class Lection : IMaterials
         OriginalId = originalId;
     }
 
-    public IMaterials Clone()
+    public Lection Clone()
     {
-        return new Lection(Title, Author, Description, Content, Points);
+        return new Lection(Title, Author, Description, Content, Points, Id);
     }
 
     public void Update(string newTitle, string newDescription, string newContent, int points, IUser newAuthor)
     {
         if (newAuthor.Id != Author.Id)
         {
-            throw new UnauthorizedAccessException("Только автор может изменять лекцию.");
+            throw new UnauthorizedAccessException("Только автор может изменять эту лекцию.");
         }
 
         Title = newTitle;

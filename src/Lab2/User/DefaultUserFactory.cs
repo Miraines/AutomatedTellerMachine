@@ -1,8 +1,8 @@
 ﻿namespace Itmo.ObjectOrientedProgramming.Lab2.User;
 
-public class DefaultUserCreator : UserCreator
+public class DefaultUserFactory : IUserFactory
 {
-    public override IUser CreateUser(string name)
+    public IUser CreateUser(string name)
     {
         return new DefaultUser(name);
     }

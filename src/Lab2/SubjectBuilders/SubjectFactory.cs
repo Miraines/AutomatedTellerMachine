@@ -1,19 +1,16 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab2.SubjectBuilderInterfaces;
-using Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.SubjectBuilders;
 
 public class SubjectFactory : ISubjectFactory
 {
-    public ExamSubject CreateExamSubject(SubjectBuilder builder, int maxPoints)
+    public IExamSubjectBuilder CreateExamSubjectBuilder()
     {
-        Subject subject = builder.Build();
-        return new ExamSubject(subject.Name, subject.Author, subject.Labworks, subject.Lections, maxPoints);
+        return new ExamSubjectBuilder();
     }
 
-    public CreditSubject CreateCreditSubject(SubjectBuilder builder, int minPointsRequired)
+    public ICreditSubjectBuilder CreateCreditSubjectBuilder()
     {
-        Subject subject = builder.Build();
-        return new CreditSubject(subject.Name, subject.Author, subject.Labworks, subject.Lections, minPointsRequired);
+        return new CreditSubjectBuilder();
     }
 }

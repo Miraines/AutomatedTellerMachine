@@ -15,11 +15,13 @@ public class EducationalTests
     public void NonAuthor_Cannot_Update_Lection()
     {
         var userFactory = new DefaultUserFactory();
+        var materialsFactory = new MaterialsFactory();
+
         IUser author = userFactory.CreateUser("Автор Лекции");
         IUser nonAuthor = userFactory.CreateUser("НеАвтор");
 
         var lectionRepository = new LectionRepository();
-        var lection = new Lection("Лекция 1", author, "Описание", "Содержание", 10);
+        Lection lection = materialsFactory.CreateLection("Лекция 1", author, "Описание", "Содержание", 10);
         lectionRepository.Add(lection);
 
         Assert.Throws<UnauthorizedAccessException>(() =>
@@ -35,11 +37,13 @@ public class EducationalTests
     public void NonAuthor_Cannot_Update_Labwork()
     {
         var userFactory = new DefaultUserFactory();
+        var materialsFactory = new MaterialsFactory();
+
         IUser author = userFactory.CreateUser("Автор Лабораторной");
         IUser nonAuthor = userFactory.CreateUser("НеАвтор");
 
         var labworkRepository = new LabworkRepository();
-        var labwork = new Labwork("Лабораторная 1", author, "Описание", 20);
+        Labwork labwork = materialsFactory.CreateLabwork("Лабораторная 1", author, "Описание", 20);
         labworkRepository.Add(labwork);
 
         Assert.Throws<UnauthorizedAccessException>(() =>
@@ -54,9 +58,10 @@ public class EducationalTests
     public void Cloned_Lection_Has_Original_Id()
     {
         var userFactory = new DefaultUserFactory();
-        IUser author = userFactory.CreateUser("Автор Лекции");
+        var materialsFactory = new MaterialsFactory();
 
-        var originalLection = new Lection("Лекция 1", author, "Описание", "Содержание", 10);
+        IUser author = userFactory.CreateUser("Автор Лекции");
+        Lection originalLection = materialsFactory.CreateLection("Лекция 1", author, "Описание", "Содержание", 10);
 
         Lection clonedLection = originalLection.Clone();
 
@@ -68,9 +73,10 @@ public class EducationalTests
     public void Cloned_Labwork_Has_Original_Id()
     {
         var userFactory = new DefaultUserFactory();
-        IUser author = userFactory.CreateUser("Автор Лабораторной");
+        var materialsFactory = new MaterialsFactory();
 
-        var originalLabwork = new Labwork("Лабораторная 1", author, "Описание", 20);
+        IUser author = userFactory.CreateUser("Автор Лабораторной");
+        Labwork originalLabwork = materialsFactory.CreateLabwork("Лабораторная 1", author, "Описание", 20);
 
         Labwork clonedLabwork = originalLabwork.Clone();
 
@@ -82,9 +88,11 @@ public class EducationalTests
     public void Creating_Subject_With_Invalid_Total_Points_Throws_Exception()
     {
         var userFactory = new DefaultUserFactory();
+        var materialsFactory = new MaterialsFactory();
+        var subjectFactory = new SubjectFactory();
+
         IUser author = userFactory.CreateUser("Автор Предмета");
 
-        var materialsFactory = new MaterialsFactory();
         Lection lection = materialsFactory.CreateLection(
             "Лекция 1",
             author,
@@ -97,7 +105,6 @@ public class EducationalTests
             "Описание",
             50);
 
-        var subjectFactory = new SubjectFactory();
         IExamSubjectBuilder examSubjectBuilder = subjectFactory.CreateExamSubjectBuilder();
 
         var lections = new List<Lection> { lection };
@@ -117,8 +124,9 @@ public class EducationalTests
     public void Adding_Duplicate_User_Throws_Exception()
     {
         var userFactory = new DefaultUserFactory();
-        IUser user = userFactory.CreateUser("Дубликат Пользователя");
         var userRepository = new UserRepository();
+
+        IUser user = userFactory.CreateUser("Дубликат Пользователя");
         userRepository.Add(user);
 
         Assert.Throws<ArgumentException>(() => userRepository.Add(user));

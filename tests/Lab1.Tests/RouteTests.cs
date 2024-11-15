@@ -18,25 +18,20 @@ public class RouteTests
             new RegularSegment(200),
         };
 
-        // Финальный сегмент с допустимой скоростью 100
         var finalSegment = new FinalSegment(maxAllowedSpeed: 100);
 
-        // Создаем маршрут
         var route = new Route(segments, finalSegment);
 
-        // Создаем поезд с весом 1000, максимальной силой 500 и точностью 0.1
         var train = new Train(1000, 500, 0.1);
 
-        // Создаем процесс симуляции
         var process = new ProcessTrain(train, route);
 
-        // Рассчитываем общее время прохождения маршрута
         Result result = process.Process();
 
         Assert.IsType<Result.SuccessWithTime>(result);
 
         var successResult = result as Result.SuccessWithTime;
-        Assert.NotNull(successResult); // Убеждаемся, что результат не null
+        Assert.NotNull(successResult);
         Assert.True(successResult.Time > 0, "The route should have a valid time greater than zero.");
     }
 
@@ -45,14 +40,14 @@ public class RouteTests
     {
         var segments = new List<IRouteSegment>
         {
-            new PowerSegment(100, 1500),
+            new PowerSegment(100, 15000),
         };
 
-        var finalSegment = new FinalSegment(10);
+        var finalSegment = new FinalSegment(1);
 
         var route = new Route(segments, finalSegment);
 
-        var train = new Train(1000, 50000, 0.1);
+        var train = new Train(1000, 500000, 0.1);
 
         var process = new ProcessTrain(train, route);
 
@@ -99,16 +94,16 @@ public class RouteTests
     {
         var segments = new List<IRouteSegment>
         {
-            new PowerSegment(100, 15000),
-            new StationSegment(passengersGettingOn: 10, passengersGettingOff: 5, maxAllowedSpeed: 50),
+            new PowerSegment(100, 150000),
+            new StationSegment(passengersGettingOn: 10, passengersGettingOff: 5, maxAllowedSpeed: 5),
             new RegularSegment(200),
         };
 
-        var finalSegment = new FinalSegment(maxAllowedSpeed: 10000);
+        var finalSegment = new FinalSegment(maxAllowedSpeed: 100000);
 
         var route = new Route(segments, finalSegment);
 
-        var train = new Train(weight: 1000, maximumPermissibleForce: 16000, accuracy: 0.1);
+        var train = new Train(weight: 1000, maximumPermissibleForce: 160000, accuracy: 0.1);
 
         var process = new ProcessTrain(train, route);
 
@@ -127,11 +122,11 @@ public class RouteTests
         {
             new PowerSegment(100, 15000),
             new RegularSegment(200),
-            new StationSegment(passengersGettingOn: 10, passengersGettingOff: 5, maxAllowedSpeed: 5000),
+            new StationSegment(passengersGettingOn: 10, passengersGettingOff: 5, maxAllowedSpeed: 50000),
             new RegularSegment(200),
         };
 
-        var finalSegment = new FinalSegment(maxAllowedSpeed: 20);
+        var finalSegment = new FinalSegment(maxAllowedSpeed: 1);
 
         var route = new Route(segments, finalSegment);
 
@@ -154,8 +149,8 @@ public class RouteTests
         {
             new PowerSegment(100, 15000),
             new RegularSegment(200),
-            new PowerSegment(100, -14500),
-            new StationSegment(15, 30, 20),
+            new PowerSegment(100, -14000),
+            new StationSegment(15, 30, 200),
             new RegularSegment(200),
             new PowerSegment(100, 15000),
             new RegularSegment(200),

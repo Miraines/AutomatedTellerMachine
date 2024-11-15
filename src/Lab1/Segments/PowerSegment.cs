@@ -44,7 +44,12 @@ public class PowerSegment : IRouteSegment, IValidatableDistanceSegment
 
             distanceRemaining -= distanceTraveled;
 
-            train.TryApplySpeed(train.Acceleration * train.Accuracy);
+            Result updateSpeedResult = train.TryApplyForce(Force);
+
+            if (updateSpeedResult is Result.InvalidAcceleration invalidAccel)
+            {
+                return invalidAccel;
+            }
 
             time += train.Accuracy;
         }

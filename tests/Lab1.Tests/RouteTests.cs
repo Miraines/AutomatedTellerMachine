@@ -201,7 +201,7 @@ public class RouteTests
     public void Scenario8_ShouldReturnFailure()
     {
         double x = 100;
-        double y = 50;
+        double y = 5000;
 
         var segments = new List<IRouteSegment>
         {

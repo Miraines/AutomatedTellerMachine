@@ -1,10 +1,17 @@
-﻿namespace Itmo.ObjectOrientedProgramming.Lab3.DisplayDrivers;
+﻿using Crayon;
+
+namespace Itmo.ObjectOrientedProgramming.Lab3.DisplayDrivers.Implementations;
 
 public class FileDisplayDriver : IDisplayDriver
 {
     private readonly string _filePath;
+    private readonly byte _r;
 
-    public FileDisplayDriver(string filePath)
+    private readonly byte _g;
+
+    private readonly byte _b;
+
+    public FileDisplayDriver(string filePath, byte r, byte g, byte b)
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
@@ -12,6 +19,9 @@ public class FileDisplayDriver : IDisplayDriver
         }
 
         _filePath = filePath;
+        _r = r;
+        _g = g;
+        _b = b;
     }
 
     public void Clear()
@@ -22,6 +32,8 @@ public class FileDisplayDriver : IDisplayDriver
     public void WriteText(string text)
     {
         ArgumentNullException.ThrowIfNull(text);
-        File.AppendAllText(_filePath, text + Environment.NewLine);
+
+        string coloredText = Output.Rgb(_r, _g, _b).Text(text);
+        File.AppendAllText(_filePath, coloredText + Environment.NewLine);
     }
 }

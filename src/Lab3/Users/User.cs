@@ -1,7 +1,6 @@
-﻿using Itmo.ObjectOrientedProgramming.Lab3.Loggers;
-using Itmo.ObjectOrientedProgramming.Lab3.Messages;
+﻿using Itmo.ObjectOrientedProgramming.Lab3.Messages;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3.MessageEndpoints;
+namespace Itmo.ObjectOrientedProgramming.Lab3.Users;
 
 public class User
 {
@@ -9,20 +8,12 @@ public class User
 
     private readonly List<ReceivedMessage> _receivedMessages;
 
-    private readonly ILogger _logger;
-
     public IReadOnlyCollection<ReceivedMessage> Messages => _receivedMessages.AsReadOnly();
 
-    public User(string name, ILogger logger)
+    public User(string name)
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
-
-        Name = name;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
         _receivedMessages = new List<ReceivedMessage>();
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public void ReceivedMessage(Message message)
@@ -31,7 +22,6 @@ public class User
 
         var recievedMessage = new ReceivedMessage(message);
         _receivedMessages.Add(recievedMessage);
-        _logger.Log($"Пользователь {Name} получил сообщение ID: {message.Id}, Описание: {message.Description}");
     }
 
     public void GetAllMessages()
@@ -53,12 +43,10 @@ public class User
 
         if (receivedMessage == null)
         {
-            _logger.Log(
-                $"Попытка отметить как прочитанное несуществующее сообщение ID: {messageId} для пользователя {Name}.");
+            Console.WriteLine($"Сообщение с ID {messageId} не найдено.");
             return;
         }
 
         receivedMessage.MarkAsRead();
-        _logger.Log($"Пользователь {Name} отметил сообщение ID: {messageId} как прочитанное.");
     }
 }

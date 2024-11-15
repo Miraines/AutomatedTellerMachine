@@ -20,11 +20,4 @@ public class Display : IDisplay
         string coloredText = message.Description + ": " + message.Content;
         _displayDriver.WriteText(coloredText);
     }
-
-    public void WriteColoredText(string coloredText)
-    {
-        ArgumentNullException.ThrowIfNull(coloredText);
-        _displayDriver.Clear();
-        _displayDriver.WriteText(coloredText);
-    }
 }

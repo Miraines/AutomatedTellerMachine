@@ -54,6 +54,11 @@ public class Train : ITrain
 
     public void TryApplyAcceleration(double acceleration)
     {
+        if (acceleration < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(acceleration), "Acceleration must be greater than zero.");
+        }
+
         Acceleration = acceleration;
     }
 
@@ -90,7 +95,7 @@ public class Train : ITrain
 
     private bool IsForceValid(double force)
     {
-        return Math.Abs(force) <= MaximumPermissibleForce;
+        return force <= MaximumPermissibleForce;
     }
 
     private bool IsMaximumPermissibleForceValid(double force)

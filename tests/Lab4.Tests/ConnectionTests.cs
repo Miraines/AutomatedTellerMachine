@@ -35,25 +35,26 @@ public class ConnectionTests
     [Fact]
     public void TreeGoto_AfterConnect_ShouldChangeDirectory()
     {
-        var fileSystemStateMock = new Mock<IFileSystemState>();
+        var fileSystemState = new FileSystemState();
         var printerMock = new Mock<IPrint>();
 
         var connectionTypeHandler = new ConnectionTypeHandle();
         connectionTypeHandler
-            .SetNext(new ConnectHandle(fileSystemStateMock.Object, printerMock.Object))
-            .SetNext(new TreeGotoHandle(fileSystemStateMock.Object, printerMock.Object))
+            .SetNext(new ConnectHandle(fileSystemState, printerMock.Object))
+            .SetNext(new TreeGotoHandle(fileSystemState, printerMock.Object))
             .SetNext(new NullChainLink<CommandRequest>());
 
-        fileSystemStateMock.SetupGet(x => x.CurrentPath).Returns("C:\\TestDir");
+        Directory.CreateDirectory("C:\\TestDir");
+        Directory.CreateDirectory("C:\\NewDir");
 
-        connectionTypeHandler.Handle(new CommandRequest("connect . -m local"));
-
-        fileSystemStateMock.SetupGet(x => x.CurrentPath).Returns("C:\\NewDir");
-
+        connectionTypeHandler.Handle(new CommandRequest("connect C:\\TestDir -m local"));
         connectionTypeHandler.Handle(new CommandRequest("tree goto C:\\NewDir"));
 
-        Assert.Equal("C:\\NewDir", fileSystemStateMock.Object.CurrentPath);
+        Assert.Equal("C:\\NewDir", fileSystemState.CurrentPath);
         printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);
+
+        Directory.Delete("C:\\TestDir", true);
+        Directory.Delete("C:\\NewDir", true);
     }
 
     [Fact]

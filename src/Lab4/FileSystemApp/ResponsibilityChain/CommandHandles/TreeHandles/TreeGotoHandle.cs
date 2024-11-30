@@ -5,10 +5,10 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.ResponsibilityChain.
 
 public class TreeGotoHandle : ChainLink<CommandRequest>
 {
-    private readonly FileSystemState _fileSystemState;
+    private readonly IFileSystemState _fileSystemState;
     private readonly IPrint _printer;
 
-    public TreeGotoHandle(FileSystemState fileSystemState, IPrint printer)
+    public TreeGotoHandle(IFileSystemState fileSystemState, IPrint printer)
     {
         _fileSystemState = fileSystemState;
         _printer = printer;

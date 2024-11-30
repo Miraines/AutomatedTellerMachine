@@ -2,5 +2,5 @@
 
 public interface ICommand
 {
-    void Execute(FileSystemState state);
+    void Execute(IFileSystemState state);
 }

@@ -17,7 +17,7 @@ public class TreeListCommand : ICommand
         _depth = depth;
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         _strategy.TreeListCommand(_depth, _printer);
     }

@@ -11,7 +11,7 @@ public class ConnectCommand : ICommand
         _strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         state.CurrentPath = _strategy.ConnectCommand(_fullPath);
     }

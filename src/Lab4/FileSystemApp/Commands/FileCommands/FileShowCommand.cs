@@ -12,7 +12,7 @@ public class FileShowCommand : ICommand
         _strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         _strategy.FileConsoleShowCommand(_pathForFile);
     }

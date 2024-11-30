@@ -11,7 +11,7 @@ public class TreeGotoCommand : ICommand
         _strategy = strategy;
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         state.CurrentPath = _strategy.TreeGotoCommand(_fullPath);
     }

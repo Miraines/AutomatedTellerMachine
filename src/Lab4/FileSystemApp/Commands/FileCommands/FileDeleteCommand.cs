@@ -11,7 +11,7 @@ public class FileDeleteCommand : ICommand
         _strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         _strategy.FileDeleteCommand(_pathForFile);
     }

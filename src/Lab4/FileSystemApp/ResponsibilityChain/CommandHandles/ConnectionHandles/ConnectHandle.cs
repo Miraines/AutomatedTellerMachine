@@ -5,10 +5,10 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.ResponsibilityChain.
 
 public class ConnectHandle : ChainLink<CommandRequest>
 {
-    private readonly FileSystemState _fileSystemState;
+    private readonly IFileSystemState _fileSystemState;
     private readonly IPrint _printer;
 
-    public ConnectHandle(FileSystemState fileSystemState, IPrint printer)
+    public ConnectHandle(IFileSystemState fileSystemState, IPrint printer)
     {
         _fileSystemState = fileSystemState;
         _printer = printer;

@@ -13,7 +13,7 @@ public class FileMoveCommand : ICommand
         _strategy = strategy ?? throw new ArgumentNullException(nameof(strategy));
     }
 
-    public void Execute(FileSystemState state)
+    public void Execute(IFileSystemState state)
     {
         _strategy.FileMoveCommand(_pathForFile, _pathForDirectory);
     }

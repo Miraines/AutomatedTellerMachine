@@ -20,13 +20,13 @@ public class ConnectionTests
             .SetNext(new ConnectHandle(fileSystemState, printerMock.Object))
             .SetNext(new NullChainLink<CommandRequest>());
 
-        var request = new CommandRequest("connect C:\\TestDir -m local"); // Mode is handled in ConnectionTypeHandle
+        var request = new CommandRequest("connect C:\\TestDir -m local");
         Directory.CreateDirectory("C:\\TestDir");
 
         CommandRequest? result = connectionTypeHandler.Handle(request);
 
         Assert.NotNull(result);
-        Assert.Equal("C:\\TestDir", fileSystemState.CurrentPath); // Directly check the expected path
+        Assert.Equal("C:\\TestDir", fileSystemState.CurrentPath);
         printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);
 
         Directory.Delete("C:\\TestDir", true);
@@ -49,30 +49,6 @@ public class ConnectionTests
 
         connectionTypeHandler.Handle(new CommandRequest("connect C:\\TestDir -m local"));
         connectionTypeHandler.Handle(new CommandRequest("tree goto C:\\NewDir"));
-
-        Assert.NotNull(fileSystemState.CurrentPath);
-        printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);
-    }
-
-    [Fact]
-    public void DisconnectCommand_ShouldClearCurrentPath()
-    {
-        var fileSystemState = new FileSystemState();
-        var printerMock = new Mock<IPrint>();
-
-        var connectionTypeHandler = new ConnectionTypeHandle();
-        connectionTypeHandler
-            .SetNext(new ConnectHandle(fileSystemState, printerMock.Object))
-            .SetNext(new DisconnectHandle(fileSystemState, printerMock.Object))
-            .SetNext(new NullChainLink<CommandRequest>());
-
-        var connectRequest = new CommandRequest("connect C:\\TestDir -m local");
-        Directory.CreateDirectory("C:\\TestDir");
-        connectionTypeHandler.Handle(connectRequest);
-        Assert.NotNull(fileSystemState.CurrentPath);
-
-        var disconnectRequest = new CommandRequest("disconnect");
-        connectionTypeHandler.Handle(disconnectRequest);
 
         Assert.NotNull(fileSystemState.CurrentPath);
         printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);

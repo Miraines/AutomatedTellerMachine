@@ -11,7 +11,7 @@ public class TreeHandle : ChainLink<CommandRequest>
 
     public override CommandRequest? Handle(CommandRequest request)
     {
-        if (!request.CommandName.StartsWith("tree ", StringComparison.OrdinalIgnoreCase))
+        if (!request.CommandName.StartsWith("tree", StringComparison.OrdinalIgnoreCase))
         {
             return _nextHandler?.Handle(request);
         }

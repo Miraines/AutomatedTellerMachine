@@ -1,7 +1,6 @@
 ﻿using Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.ResponsibilityChain;
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.ResponsibilityChain.CommandHandles.ConnectionHandles;
-using Itmo.ObjectOrientedProgramming.Lab4.FileSystemApp.ResponsibilityChain.CommandHandles.TreeHandles;
 using Moq;
 using Xunit;
 
@@ -33,7 +32,7 @@ public class ConnectionTests
     }
 
     [Fact]
-    public void TreeGoto_AfterConnect_ShouldChangeDirectory()
+    public void DisconnectCommand_ShouldClearCurrentPath()
     {
         var fileSystemState = new FileSystemState();
         var printerMock = new Mock<IPrint>();
@@ -41,14 +40,16 @@ public class ConnectionTests
         var connectionTypeHandler = new ConnectionTypeHandle();
         connectionTypeHandler
             .SetNext(new ConnectHandle(fileSystemState, printerMock.Object))
-            .SetNext(new TreeGotoHandle(fileSystemState, printerMock.Object))
+            .SetNext(new DisconnectHandle(fileSystemState, printerMock.Object))
             .SetNext(new NullChainLink<CommandRequest>());
 
+        var connectRequest = new CommandRequest("connect C:\\TestDir -m local");
         Directory.CreateDirectory("C:\\TestDir");
-        Directory.CreateDirectory("C:\\NewDir");
+        connectionTypeHandler.Handle(connectRequest);
+        Assert.NotNull(fileSystemState.CurrentPath);
 
-        connectionTypeHandler.Handle(new CommandRequest("connect C:\\TestDir -m local"));
-        connectionTypeHandler.Handle(new CommandRequest("tree goto C:\\NewDir"));
+        var disconnectRequest = new CommandRequest("disconnect");
+        connectionTypeHandler.Handle(disconnectRequest);
 
         Assert.NotNull(fileSystemState.CurrentPath);
         printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);

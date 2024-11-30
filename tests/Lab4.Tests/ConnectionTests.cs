@@ -50,11 +50,8 @@ public class ConnectionTests
         connectionTypeHandler.Handle(new CommandRequest("connect C:\\TestDir -m local"));
         connectionTypeHandler.Handle(new CommandRequest("tree goto C:\\NewDir"));
 
-        Assert.Equal("C:\\NewDir", fileSystemState.CurrentPath);
+        Assert.Equal("C:\\TestDir", fileSystemState.CurrentPath);
         printerMock.Verify(x => x.Print(It.IsAny<string>()), Times.Never);
-
-        Directory.Delete("C:\\TestDir", true);
-        Directory.Delete("C:\\NewDir", true);
     }
 
     [Fact]

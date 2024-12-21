@@ -65,7 +65,6 @@ public class PostgresAccountRepository : IAccountRepository
             string pinValue = reader.GetString(1);
             decimal balance = reader.GetDecimal(2);
 
-            // Создаем доменную сущность
             var account = new Account(accountNum, new Domain.ValueObjects.Pin(pinValue), balance);
             return account;
         }

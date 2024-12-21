@@ -30,7 +30,6 @@ public class Operation
         Timestamp = timestamp;
     }
 
-    // Дополнительный конструктор для восстановления операции из БД с уже известным Id
     public Operation(Guid id, string accountNumber, OperationType type, decimal amount, DateTime timestamp)
     {
         if (id == Guid.Empty)
